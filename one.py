@@ -21,10 +21,18 @@ model = keras.Sequential([
 
 model.compile(optimizer='adam',loss="sparse_categorical_crossentropy", metrics=['accuracy'])
 
-model.fit(X_train_flattened, y_train, epochs=10)
+model.fit(X_train_flattened, y_train, epochs=20)
 
 test_loss, test_accuracy = model.evaluate(X_test_flattened, y_test)
 
 
 predictions = model.predict(X_test_flattened)
-print(np.argmax(predictions[0]))
+for i in range(5):
+    predicted_label = np.argmax(predictions[i]) # সর্বোচ্চ সম্ভাব্যতা সহ লেবেল
+    true_label = y_test[i]
+    print(f"ছবি {i+1}: প্রেডিক্টেড লেবেল: {predicted_label}, আসল লেবেল: {true_label}")
+
+    # ছবিটি প্লট করে দেখা (ঐচ্ছিক)
+    plt.imshow(X_test[i], cmap=plt.cm.binary)
+    plt.title(f"Predicted: {predicted_label}, True: {true_label}")
+    plt.show()
